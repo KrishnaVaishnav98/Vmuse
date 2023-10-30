@@ -4,6 +4,10 @@ const blogSchema = mongoose.Schema({
     category: String,
     title: String,
     content: String,
+    image: {
+        filename: String,
+        path: String,
+    },
 
 },
     { versionKey: false }

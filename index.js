@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const { connection } = require("./db");
 const { userRoute } = require("./routes/userRoutes");
+const { blogRoute } = require("./routes/blogRouter");
 
 require("dotenv").config();
 
@@ -12,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/user", userRoute)
-
+app.use("/blog", blogRoute)
 
 app.get("/", async (req, res) => {
     try {
