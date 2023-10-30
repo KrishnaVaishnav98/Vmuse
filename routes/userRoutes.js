@@ -7,7 +7,7 @@ const { UserModel } = require("../model/userModel");
 const userRoute = express.Router();
 
 
-// SignUp Route
+// SignUp 
 userRoute.post("/signup", async (req, res) => {
 
     try {
@@ -35,7 +35,7 @@ userRoute.post("/signup", async (req, res) => {
 })
 
 
-// Login Route
+// Login 
 userRoute.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body
@@ -82,7 +82,7 @@ userRoute.get("/all", auth, async (req, res) => {
     }
 })
 
-// update user route
+// update user 
 userRoute.patch("/update/:id", auth, async (req, res) => {
 
     try {
@@ -98,7 +98,7 @@ userRoute.patch("/update/:id", auth, async (req, res) => {
     }
 })
 
-// delete user route
+// delete user 
 userRoute.delete("/delete/:id", auth, async (req, res) => {
 
     try {
