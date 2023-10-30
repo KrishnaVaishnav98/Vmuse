@@ -1,4 +1,4 @@
-const jwt = require("jwt");
+const jwt = require("jsonwebtoken");
 const { BlackListModel } = require("../model/userModel");
 
 const auth = async (req, res, next) => {
