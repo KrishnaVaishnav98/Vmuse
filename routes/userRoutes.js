@@ -6,7 +6,6 @@ const { UserModel } = require("../model/userModel");
 
 const userRoute = express.Router();
 
-
 // SignUp 
 userRoute.post("/signup", async (req, res) => {
 

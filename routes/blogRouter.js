@@ -3,35 +3,50 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { auth } = require("../middlewares/auth");
 const { BlogModel } = require("../model/bolgModel");
+const upload = require("../middlewares/upload");
 
 const blogRoute = express.Router();
+const multer = require('multer');
 
 
-blogRoute.post('/post', upload.single('image'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ message: 'No image uploaded.' });
+blogRoute.post('/post', upload.single('image'), async (req, res) => {
+
+    try {
+        const { title, content } = req.body;
+        const image = req.file.path.replace(/\\/g, '/');
+        const newBlog = new BlogModel({ title, content, image });
+        await newBlog.save();
+
+        res.json({ message: 'Blog post created successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error creating a blog post' });
     }
+});
 
-    // You can save the file information to MongoDB here
-    const uploadedImage = {
-        filename: req.file.originalname,
-        path: req.file.path,
-    };
 
-    // Create a new blog post with image information
-    const newBlogPost = new BlogModel({
-        category: req.body.category,
-        title: req.body.title,
-        content: req.body.content,
-        image: uploadedImage, // Attach the uploaded image to the blog post
-    });
+// blogRoute.post('/upload-image', upload.single('image'), async (req, res) => {
 
-    newBlogPost.save((err) => {
-        if (err) {
-            return res.status(500).json({ message: 'Error saving blog post.' });
-        }
-        res.status(200).json({ message: 'Blog post with image uploaded successfully.' });
-    });
+//     const imageName = req.file.filename;
+//     try {
+//         await Images.create({ image: imageName })
+//         res.json({ status: "ok" })
+
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ message: 'Error creating a blog post' });
+//     }
+// });
+
+
+blogRoute.get('/view', async (req, res) => {
+    try {
+        const blogs = await BlogModel.find({});
+        res.json({ blogs: blogs });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error creating a blog post' });
+    }
 });
 
 module.exports = { blogRoute }
